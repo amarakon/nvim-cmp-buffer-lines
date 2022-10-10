@@ -1,7 +1,7 @@
 local lines = {}
 for _,line in pairs(vim.fn.getline(1, vim.api.nvim_buf_line_count(0))) do
 	if not line:match("^%s*$") then
-		line = line:gsub("^\t+", "")
+		line = line:gsub("^%s+", "")
 		table.insert(lines, line)
 	end
 end
