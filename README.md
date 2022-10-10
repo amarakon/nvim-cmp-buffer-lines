@@ -58,3 +58,4 @@ require "cmp".setup.filetype({ "c", "cpp" }, {
 
 -   [ ] Omit commented lines
 -   [ ] Omit duplicate lines
+-   [ ] Add syntax highlighting
