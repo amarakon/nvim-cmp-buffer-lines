@@ -58,5 +58,5 @@ require "cmp".setup.filetype({ "c", "cpp" }, {
 
 -   [ ] Automatically update the source
 -   [ ] Omit commented lines
--   [ ] Omit duplicate lines
+-   [x] Omit duplicate lines
 -   [ ] Add syntax highlighting
