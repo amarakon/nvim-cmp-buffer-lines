@@ -1,17 +1,13 @@
-local lines = {}
+local hash,lines = {},{}
 for _,line in pairs(vim.fn.getline(1, vim.api.nvim_buf_line_count(0))) do
+	-- Ignore blank lines
 	if not line:match("^%s*$") then
-		line = line:gsub("^%s+", "")
-		table.insert(lines, line)
+		-- `hash` is used to omit duplicate lines
+		if not hash[line] then
+			-- Show indentation level in the menu, but not when selecting
+			table.insert(lines, { label = line, word = line:gsub("^%s+", "") })
+			hash[line] = true
+		end
 	end
 end
-
-local hash,Lines = {},{}
-for _,v in pairs(lines) do
-	if not hash[v] then
-		Lines[#Lines+1] = { label = v }
-		hash[v] = true
-	end
-end
-
-return Lines
+return lines
