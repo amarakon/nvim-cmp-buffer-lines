@@ -9,7 +9,7 @@ function source.get_keyword_pattern()
 end
 
 function source.complete(_, _, callback)
-	callback(require "cmp-buffer-lines/complete")
+	callback(require "cmp-buffer-lines.complete"())
 end
 
 return source
