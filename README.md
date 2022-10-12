@@ -58,7 +58,12 @@ require "cmp".setup.filetype({ "c", "cpp" }, {
 
 -   [x] Automatically update the source
 -   [x] Cut comments from lines
+    -   [ ] Test it to prove it works in all use cases
+    -   [ ] Find a more efficient implementation with
+        [tree-sitter](https://github.com/nvim-treesitter/nvim-treesitter)
+        or LSP (Language Server Protocol)
 -   [x] Omit duplicate lines
 -   [x] Show indentation level in the completion menu, but not when
-    selecting
+    selecting or confirming
+-   [ ] Add configuration options
 -   [ ] Add syntax highlighting
