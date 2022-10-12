@@ -57,7 +57,7 @@ require "cmp".setup.filetype({ "c", "cpp" }, {
 ## TODO
 
 -   [x] Automatically update the source
--   [ ] Omit commented lines
+-   [x] Cut comments from lines
 -   [x] Omit duplicate lines
 -   [x] Show indentation level in the completion menu, but not when
     selecting
