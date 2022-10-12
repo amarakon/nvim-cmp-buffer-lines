@@ -8,6 +8,7 @@ nvim-cmp Buffer Lines
 -   <a href="#installation" id="toc-installation">Installation</a>
     -   <a href="#packernvim" id="toc-packernvim"><span>packer.nvim</span></a>
 -   <a href="#setup" id="toc-setup">Setup</a>
+    -   <a href="#options" id="toc-options">Options</a>
     -   <a href="#only-for-certain-file-types"
         id="toc-only-for-certain-file-types">Only for certain file types</a>
 -   <a href="#todo" id="toc-todo">TODO</a>
@@ -38,10 +39,21 @@ end)
 ``` lua
 require "cmp".setup {
     sources = {
-        { name = "buffer-lines" }
+        {
+            name = "buffer-lines",
+            option = { … }
+        }
     }
 }
 ```
+
+### Options
+
+| Option               | Type    | Default | Description                                                                                  |
+|:---------------------|:--------|:--------|:---------------------------------------------------------------------------------------------|
+| `words`              | Boolean | `false` | Include words                                                                                |
+| `comments`           | Boolean | `false` | Include comments                                                                             |
+| `leading_whitespace` | Boolean | `true`  | Include leading whitespace in the completion menu (does not apply on selection/confirmation) |
 
 ### Only for certain file types
 
@@ -58,12 +70,12 @@ require "cmp".setup.filetype({ "c", "cpp" }, {
 
 -   [x] Automatically update the source
 -   [x] Cut comments from lines
-    -   [ ] Test it to prove it works in all use cases
+    -   [x] Test it to prove it works in all use cases
     -   [ ] Find a more efficient implementation with
         [tree-sitter](https://github.com/nvim-treesitter/nvim-treesitter)
         or LSP (Language Server Protocol)
 -   [x] Omit duplicate lines
 -   [x] Show indentation level in the completion menu, but not when
     selecting or confirming
--   [ ] Add configuration options
+-   [x] Add configuration options
 -   [ ] Add syntax highlighting

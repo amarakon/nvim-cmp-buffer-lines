@@ -8,8 +8,6 @@ function source.get_keyword_pattern()
 	return ".*"
 end
 
-function source.complete(_, _, callback)
-	callback(require "cmp-buffer-lines.complete"())
-end
+source.complete = require "cmp-buffer-lines.complete"
 
 return source
