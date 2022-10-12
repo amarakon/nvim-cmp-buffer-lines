@@ -9,6 +9,7 @@ nvim-cmp Buffer Lines
     -   <a href="#packernvim" id="toc-packernvim"><span>packer.nvim</span></a>
 -   <a href="#setup" id="toc-setup">Setup</a>
     -   <a href="#options" id="toc-options">Options</a>
+    -   <a href="#command-line" id="toc-command-line">Command-line</a>
     -   <a href="#only-for-certain-file-types"
         id="toc-only-for-certain-file-types">Only for certain file types</a>
 -   <a href="#todo" id="toc-todo">TODO</a>
@@ -54,6 +55,28 @@ require "cmp".setup {
 | `words`              | Boolean | `false` | Include words                                                                                |
 | `comments`           | Boolean | `false` | Include comments                                                                             |
 | `leading_whitespace` | Boolean | `true`  | Include leading whitespace in the completion menu (does not apply on selection/confirmation) |
+
+### Command-line
+
+You can use this source for searching for patterns in the command-line.
+I recommend using it in conjunction with
+[cmp-buffer](https://github.com/hrsh7th/cmp-buffer) for a
+bread-and-butter combination. The following code block is the
+configuration I use and recommend.
+
+``` lua
+-- Enable `buffer` and `buffer-lines` for `/` and `?` in the command-line
+cmp.setup.cmdline({ "/", "?" }, {
+    mapping = mapping,
+    sources = {
+        {
+            name = "buffer",
+            option = { keyword_pattern = [[\k\+]] }
+        },
+        { name = "buffer-lines" }
+    }
+})
+```
 
 ### Only for certain file types
 
