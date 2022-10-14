@@ -100,5 +100,9 @@ require "cmp".setup.filetype({ "c", "cpp" }, {
 -   [x] Omit duplicate lines
 -   [x] Show indentation level in the completion menu, but not when
     selecting or confirming
+-   [ ] Add an option to choose the maximum indentation level lines will
+    be shown
+-   [ ] Make the plugin more efficient for editing large files
+-   [ ] Add an option to set a file size limit
 -   [x] Add configuration options
 -   [ ] Add syntax highlighting
