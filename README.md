@@ -66,7 +66,7 @@ configuration I use and recommend.
 
 ``` lua
 -- Enable `buffer` and `buffer-lines` for `/` and `?` in the command-line
-cmp.setup.cmdline({ "/", "?" }, {
+require "cmp".setup.cmdline({ "/", "?" }, {
     mapping = require "cmp".mapping.preset.cmdline(),
     sources = {
         {
