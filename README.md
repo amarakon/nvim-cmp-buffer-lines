@@ -109,3 +109,4 @@ require "cmp".setup.filetype({ "c", "cpp" }, {
 - [ ] Add an option to set a file size limit
 - [x] Add configuration options
 - [ ] Add syntax highlighting
+- [ ] Use the current or all buffers instead of buffer 0
