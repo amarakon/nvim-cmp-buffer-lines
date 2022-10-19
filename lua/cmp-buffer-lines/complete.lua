@@ -3,56 +3,93 @@ local function escape(str)
 	return str:gsub("%p", "%%%1")
 end
 
+-- Function to remove comments from a line
+local function rmcomments(nmbr, line)
+	-- Use tree-sitter if is installed
+	if not (vim.fn.exists(":TSUpdate") >= 2) then
+		local ts_utils = require "nvim-treesitter.ts_utils"
+		local treesitter = require "vim.treesitter"
+
+		local col = 1
+		while (col < line:len()) do
+			if line:find "%s" then
+				col = col + 1
+			else
+				-- For some reason, tree-sitter uses 0-indexed line and column
+				-- numbers.
+				local tsnmbr, tscol = nmbr - 1, col - 1
+				local node_length = ts_utils.node_length(
+					treesitter.get_node_at_pos(0, tsnmbr, tscol))
+
+				for _,v in pairs(treesitter.get_captures_at_pos(0, tsnmbr, tscol)) do
+					if v["capture"] == "comment" then
+						line = line:sub(col, col + node_length)
+					end
+
+					-- Go to the next node if possible, otherwise go to the next
+					-- column
+					col = v["capture"] and (col + node_length) + 1 or col + 1
+				end
+			end
+		end
+	else
+		local comment_start,comment_ended
+		-- More variables
+		local comment
+		local comment_string,comment_end = "",""
+
+		for col = 1,line:len() do
+			local syngroup = vim.fn.synIDattr(vim.fn.synID(nmbr, col, 1),
+			"name"):gsub("^"..vim.o.filetype, "") -- Trim the file type
+
+			-- If the syntax group is a single-line comment
+			if (syngroup == "Comment" and not comment_start) or
+				syngroup == "CommentL" then
+
+				line = line:sub(1, col - 1)
+				break
+			elseif syngroup == "Comment" then
+				comment = true
+				-- If the syntax group is a multi-line comment
+			elseif syngroup ~= "Comment" then
+				if syngroup == "CommentStart" then
+					if not comment_start then
+						comment_start = col
+					end
+
+					if comment then
+						comment_end = comment_end..line:sub(col, col)
+					else
+						comment_string = comment_string..line:sub(col, col)
+					end
+				elseif comment_start and syngroup ~= "CommentStart" then
+					line = line:gsub(escape(comment_string)..".-"..
+					escape(comment_end), "")
+					comment_ended = true
+					break
+				end
+			end
+		end
+
+		-- If the ending of a multi-line comment was not found
+		if comment_start and not comment_ended then
+			line = line:sub(1, comment_start - 1)
+			comment_ended = true
+		end
+
+	end
+
+	return line
+end
+
 local function generate(opts)
 	local leadings,lines = {},{}
 	for nmbr,line in pairs(vim.fn.getline(1, vim.api.nvim_buf_line_count(0))) do
 		-- Exclude the current line
 		if nmbr ~= vim.api.nvim_win_get_cursor(0)[1] then
 			-- Variables needed for the next `for` loop
-			local comment_start,comment_ended
 			if not opts.comments then
-				-- More variables
-				local comment
-				local comment_string,comment_end = "",""
-
-				for col = 1,line:len() do
-					local syngroup = vim.fn.synIDattr(vim.fn.synID(nmbr, col, 1),
-					"name"):gsub("^"..vim.o.filetype, "") -- Trim the file type
-
-					-- If the syntax group is a single-line comment
-					if (syngroup == "Comment" and not comment_start) or
-						syngroup == "CommentL" then
-
-						line = line:sub(1, col - 1)
-						break
-					elseif syngroup == "Comment" then
-						comment = true
-					-- If the syntax group is a multi-line comment
-					elseif syngroup ~= "Comment" then
-						if syngroup == "CommentStart" then
-							if not comment_start then
-								comment_start = col
-							end
-
-							if comment then
-								comment_end = comment_end..line:sub(col, col)
-							else
-								comment_string = comment_string..line:sub(col, col)
-							end
-						elseif comment_start and syngroup ~= "CommentStart" then
-							line = line:gsub(escape(comment_string)..".-"..
-								escape(comment_end), "")
-							comment_ended = true
-							break
-						end
-					end
-				end
-			end
-
-			-- If the ending of a multi-line comment was not found
-			if comment_start and not comment_ended then
-				line = line:sub(1, comment_start - 1)
-				comment_ended = true
+				line = rmcomments(nmbr, line)
 			end
 
 			-- Strip trailing whitespace
@@ -60,11 +97,8 @@ local function generate(opts)
 
 			-- If `words` is false, exclude lines that are just one word
 			local words = not opts.words and line:match("^%s-%a+$")
-			-- Exclude lines that are just comments
-			if (not comment_start or comment_ended) and
 				-- Exclude lines that are blank or just one word
-				not (line:match("^%s*$") or words) then
-
+				if not (line:match("^%s*$") or words) then
 				-- If `leading_whitespace` is true, get the leading whitespace
 				-- to concatenate it later
 				local leading = ""
@@ -77,8 +111,9 @@ local function generate(opts)
 				end
 
 				-- Replace multiple whitespace with one space
-				lines[nmbr] = line:gsub("^%s+", ""):gsub("%s+", " ")
-				leadings[nmbr] = leading
+				line = line:gsub("^%s+", ""):gsub("%s+", " ")
+				table.insert(lines, line)
+				table.insert(leadings, leading)
 			end
 		end
 	end

@@ -23,7 +23,10 @@ nvim-cmp Buffer Lines
 nvim-cmp Buffer Lines is a completion source for
 [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) that provides a source
 for all the lines in the current buffer. This is especially useful for
-[C programmers](#only-for-certain-file-types).
+[C programmers](#only-for-certain-file-types). It uses
+[tree-sitter](https://github.com/nvim-treesitter/nvim-treesitter) if you
+have it installed on your system. tree-sitter is optional but
+recommended.
 
 ## Installation
 
@@ -94,7 +97,7 @@ require "cmp".setup.filetype({ "c", "cpp" }, {
 - [x] Automatically update the source
 - [x] Cut comments from lines
   - [x] Test it to prove it works in all use cases
-  - [ ] Find a more efficient implementation with
+  - [x] Find a more efficient implementation with
     [tree-sitter](https://github.com/nvim-treesitter/nvim-treesitter) or
     LSP (Language Server Protocol)
 - [x] Omit duplicate lines
