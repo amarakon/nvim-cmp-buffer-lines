@@ -53,11 +53,12 @@ require "cmp".setup {
 
 ### Options
 
-| Option               | Type    | Default | Description                                                                                  |
-|:---------------------|:--------|:--------|:---------------------------------------------------------------------------------------------|
-| `words`              | Boolean | `false` | Include words                                                                                |
-| `comments`           | Boolean | `false` | Include comments                                                                             |
-| `leading_whitespace` | Boolean | `true`  | Include leading whitespace in the completion menu (does not apply on selection/confirmation) |
+| Option               | Type    | Default | Description                                                                                                                                                                                         |
+|:---------------------|:--------|:--------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `words`              | Boolean | `false` | Include words                                                                                                                                                                                       |
+| `comments`           | Boolean | `false` | Include comments                                                                                                                                                                                    |
+| `leading_whitespace` | Boolean | `true`  | Include leading whitespace in the completion menu (does not apply on selection/confirmation)                                                                                                        |
+| `max_indents`        | Number  | `0`     | Maximum indentation level lines can be shown (0-indexed). For example, lines with one or more indents will not be shown when this is set to `1`. Set to `0` to show an unlimited amount of indents. |
 
 ### Command-line
 
@@ -103,7 +104,7 @@ require "cmp".setup.filetype({ "c", "cpp" }, {
 - [x] Omit duplicate lines
 - [x] Show indentation level in the completion menu, but not when
   selecting or confirming
-- [ ] Add an option to choose the maximum indentation level lines will
+- [x] Add an option to choose the maximum indentation level lines will
   be shown
 - [ ] Make the plugin more efficient for editing large files
 - [ ] Add an option to set a file size limit

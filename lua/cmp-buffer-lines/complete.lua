@@ -1,3 +1,5 @@
+local indent = vim.o.expandtab and string.rep(" ", vim.o.tabstop) or "\t"
+
 -- This is used to use a literal string in regular expressions
 local function escape(str)
 	return str:gsub("%p", "%%%1")
@@ -84,6 +86,13 @@ end
 
 local function generate(opts)
 	local leadings,lines = {},{}
+
+	local function addline(line, leading)
+		line = line:gsub("^%s+", ""):gsub("%s+", " ")
+		table.insert(lines, line)
+		table.insert(leadings, leading)
+	end
+
 	for nmbr,line in pairs(vim.fn.getline(1, vim.api.nvim_buf_line_count(0))) do
 		-- Exclude the current line
 		if nmbr ~= vim.api.nvim_win_get_cursor(0)[1] then
@@ -110,10 +119,14 @@ local function generate(opts)
 					leading = ""
 				end
 
-				-- Replace multiple whitespace with one space
-				line = line:gsub("^%s+", ""):gsub("%s+", " ")
-				table.insert(lines, line)
-				table.insert(leadings, leading)
+				local max_indents = opts.max_indents
+				if max_indents > 0 then
+					if not line:match("^"..string.rep(indent, max_indents)) then
+						addline(line, leading)
+					end
+				else
+					addline(line, leading)
+				end
 			end
 		end
 	end

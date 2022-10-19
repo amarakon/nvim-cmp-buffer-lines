@@ -3,7 +3,8 @@ local main = {}
 main.default = {
 	words = false,
 	comments = false,
-	leading_whitespace = true
+	leading_whitespace = true,
+	max_indents = 0
 }
 
 function main.validate(params)
@@ -11,7 +12,8 @@ function main.validate(params)
 	vim.validate {
 		words = { options.words, "boolean" },
 		comments = { options.comments, "boolean" },
-		leading_whitespace = { options.leading_whitespace, "boolean" }
+		leading_whitespace = { options.leading_whitespace, "boolean" },
+		max_indents = { options.max_indents, "number" }
 	}
 	return options
 end
