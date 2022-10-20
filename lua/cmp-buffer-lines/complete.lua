@@ -1,6 +1,11 @@
 local api = vim.api
-local buffer = api.nvim_get_current_buf()
-local indent = vim.o.expandtab and string.rep(" ", vim.o.tabstop) or "\t"
+local leadings,lines = {},{}
+
+local function addline(line, leading)
+	line = line:gsub("^%s+", ""):gsub("%s+", " ")
+	table.insert(lines, line)
+	table.insert(leadings, leading)
+end
 
 -- This is used to use a literal string in regular expressions
 local function escape(str)
@@ -87,13 +92,9 @@ local function rmcomments(nmbr, line)
 end
 
 local function generate(opts)
-	local leadings,lines = {},{}
-
-	local function addline(line, leading)
-		line = line:gsub("^%s+", ""):gsub("%s+", " ")
-		table.insert(lines, line)
-		table.insert(leadings, leading)
-	end
+	local buffer = api.nvim_get_current_buf()
+	local indent = vim.o.expandtab and string.rep(" ", vim.o.tabstop) or "\t"
+	leadings,lines = {},{}
 
 	for nmbr,line in pairs(vim.fn.getline(1, api.nvim_buf_line_count(buffer))) do
 		-- Exclude the current line
