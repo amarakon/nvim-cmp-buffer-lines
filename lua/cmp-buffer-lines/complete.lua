@@ -1,3 +1,5 @@
+local api = vim.api
+local buffer = api.nvim_get_current_buf()
 local indent = vim.o.expandtab and string.rep(" ", vim.o.tabstop) or "\t"
 
 -- This is used to use a literal string in regular expressions
@@ -21,9 +23,9 @@ local function rmcomments(nmbr, line)
 				-- numbers.
 				local tsnmbr, tscol = nmbr - 1, col - 1
 				local node_length = ts_utils.node_length(
-					treesitter.get_node_at_pos(0, tsnmbr, tscol))
+					treesitter.get_node_at_pos(buffer, tsnmbr, tscol))
 
-				for _,v in pairs(treesitter.get_captures_at_pos(0, tsnmbr, tscol)) do
+				for _,v in pairs(treesitter.get_captures_at_pos(buffer, tsnmbr, tscol)) do
 					if v["capture"] == "comment" then
 						line = line:sub(col, col + node_length)
 					end
@@ -93,9 +95,9 @@ local function generate(opts)
 		table.insert(leadings, leading)
 	end
 
-	for nmbr,line in pairs(vim.fn.getline(1, vim.api.nvim_buf_line_count(0))) do
+	for nmbr,line in pairs(vim.fn.getline(1, api.nvim_buf_line_count(buffer))) do
 		-- Exclude the current line
-		if nmbr ~= vim.api.nvim_win_get_cursor(0)[1] then
+		if nmbr ~= api.nvim_win_get_cursor(api.nvim_get_current_win())[1] then
 			-- Variables needed for the next `for` loop
 			if not opts.comments then
 				line = rmcomments(nmbr, line)
