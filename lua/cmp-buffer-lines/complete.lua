@@ -92,6 +92,12 @@ local function rmcomments(nmbr, line)
 end
 
 local function generate(opts)
+	-- Return nothing if the current file’s size (B) is greater than the
+	-- user-defined `max_size` (kB)
+	if vim.fn.getfsize(vim.fn.expand("%")) > (opts.max_size * 1000) then
+		return
+	end
+
 	local buffer = api.nvim_get_current_buf()
 	local indent = vim.o.expandtab and string.rep(" ", vim.o.tabstop) or "\t"
 	leadings,lines = {},{}

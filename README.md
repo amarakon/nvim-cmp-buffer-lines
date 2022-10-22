@@ -59,6 +59,7 @@ require "cmp".setup {
 | `comments`           | Boolean | `false` | Include comments                                                                                                                                                                                    |
 | `leading_whitespace` | Boolean | `true`  | Include leading whitespace in the completion menu (does not apply on selection/confirmation)                                                                                                        |
 | `max_indents`        | Number  | `0`     | Maximum indentation level lines can be shown (0-indexed). For example, lines with one or more indents will not be shown when this is set to `1`. Set to `0` to show an unlimited amount of indents. |
+| `max_size`           | Number  | `100`   | Maximum file size (in kB) for which this plugin will be activated                                                                                                                                   |
 
 ### Command-line
 
@@ -107,7 +108,7 @@ require "cmp".setup.filetype({ "c", "cpp" }, {
 - [x] Add an option to choose the maximum indentation level lines will
   be shown
 - [ ] Make the plugin more efficient for editing large files
-- [ ] Add an option to set a file size limit
+- [x] Add an option to set a file size limit
 - [x] Add configuration options
 - [ ] Add syntax highlighting
 - [x] Use the current buffer instead of buffer 0
