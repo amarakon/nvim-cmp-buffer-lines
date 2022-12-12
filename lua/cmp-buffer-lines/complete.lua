@@ -14,10 +14,11 @@ end
 
 -- Function to remove comments from a line
 local function rmcomments(nmbr, line)
+	local treesitter = require "vim.treesitter"
+
 	-- Use tree-sitter if it is installed
-	if vim.fn.exists(":TSUpdate") >= 2 then
+	if treesitter.highlighter.active[buffer] then
 		local ts_utils = require "nvim-treesitter.ts_utils"
-		local treesitter = require "vim.treesitter"
 
 		local col = 1
 		while (col < line:len()) do
