@@ -57,6 +57,7 @@ require "cmp".setup {
 |:---------------------|:--------|:--------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `words`              | Boolean | `false` | Include words                                                                                                                                                                                       |
 | `comments`           | Boolean | `false` | Include comments                                                                                                                                                                                    |
+| `line_numbers` | Boolean | `false`  | Include line numbers in the completion menu (does not apply on selection/confirmation)
 | `leading_whitespace` | Boolean | `true`  | Include leading whitespace in the completion menu (does not apply on selection/confirmation)                                                                                                        |
 | `max_indents`        | Number  | `0`     | Maximum indentation level lines can be shown (0-indexed). For example, lines with one or more indents will not be shown when this is set to `1`. Set to `0` to show an unlimited amount of indents. |
 | `max_size`           | Number  | `100`   | Maximum file size (in kB) for which this plugin will be activated                                                                                                                                   |
@@ -103,6 +104,7 @@ require "cmp".setup.filetype({ "c", "cpp" }, {
     [tree-sitter](https://github.com/nvim-treesitter/nvim-treesitter) or
     LSP (Language Server Protocol)
 - [x] Omit duplicate lines
+- [x] Add an option to show line numbers
 - [x] Show indentation level in the completion menu, but not when
   selecting or confirming
 - [x] Add an option to choose the maximum indentation level lines will

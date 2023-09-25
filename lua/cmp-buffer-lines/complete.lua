@@ -89,6 +89,7 @@ local function rmcomments(nmbr, line)
 
 	end
 
+	--return nmbr.." "..line
 	return line
 end
 
@@ -103,7 +104,8 @@ local function generate(opts)
 	local indent = vim.o.expandtab and string.rep(" ", vim.o.tabstop) or "\t"
 	leadings,lines = {},{}
 
-	for nmbr,line in pairs(vim.fn.getline(1, api.nvim_buf_line_count(buffer))) do
+	local line_count = api.nvim_buf_line_count(buffer)
+	for nmbr,line in pairs(vim.fn.getline(1, line_count)) do
 		-- Exclude the current line
 		if nmbr ~= api.nvim_win_get_cursor(api.nvim_get_current_win())[1] then
 			-- Variables needed for the next `for` loop
@@ -127,6 +129,13 @@ local function generate(opts)
 				-- We cannot concatenate nil values
 				if leading == nil then
 					leading = ""
+				end
+
+				if opts.line_numbers then
+					-- Right-align the line numbers.
+					local nmbr_spaces = #tostring(line_count) - #tostring(nmbr)
+					local nmbr_leading = string.rep(" ", nmbr_spaces)..nmbr
+					leading = nmbr_leading.." "..leading
 				end
 
 				local max_indents = opts.max_indents
