@@ -135,7 +135,7 @@ local function generate(opts)
 					-- Right-align the line numbers.
 					local nmbr_spaces = #tostring(line_count) - #tostring(nmbr)
 					local nmbr_leading = string.rep(" ", nmbr_spaces)..nmbr
-					leading = nmbr_leading.." "..leading
+					leading = nmbr_leading..opts.line_number_separator..leading
 				end
 
 				local max_indents = opts.max_indents

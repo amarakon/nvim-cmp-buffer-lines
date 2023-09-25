@@ -58,6 +58,7 @@ require "cmp".setup {
 | `words`              | Boolean | `false` | Include words                                                                                                                                                                                       |
 | `comments`           | Boolean | `false` | Include comments                                                                                                                                                                                    |
 | `line_numbers` | Boolean | `false`  | Include line numbers in the completion menu (does not apply on selection/confirmation)
+| `line_number_separator` | String | `" "`  | The separator between the line number and the line text (only used if `line_numbers` is set.
 | `leading_whitespace` | Boolean | `true`  | Include leading whitespace in the completion menu (does not apply on selection/confirmation)                                                                                                        |
 | `max_indents`        | Number  | `0`     | Maximum indentation level lines can be shown (0-indexed). For example, lines with one or more indents will not be shown when this is set to `1`. Set to `0` to show an unlimited amount of indents. |
 | `max_size`           | Number  | `100`   | Maximum file size (in kB) for which this plugin will be activated                                                                                                                                   |
