@@ -5,7 +5,7 @@ function source.new()
 end
 
 function source.get_keyword_pattern()
-	return ".*"
+	return "[^[:blank:]].*"
 end
 
 source.complete = require "cmp-buffer-lines.complete"
